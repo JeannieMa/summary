@@ -1,6 +1,0 @@
-body,div,p,span,img {margin:0;padding:0;font-size:16px;}
-img {width:100%;}
-.container{width:50%;height:auto;margin:100px;}
-/*left-right moving*/
-.main{width:100%;position:relative;}
-.main-img {position:absolute;display:none;}
