@@ -1,0 +1,70 @@
+$(function (){
+  var x,    //底面圆心xxx
+      y,    //底面圆心y
+      R,    //椭圆R
+      r,    //椭圆r
+      a=0,
+      h;    // a 百分比  h 圆椎高+圆心道y＝0的距离
+      h=2*R-y;  // 所填变量只要满足h1=2R
+  var canvas = $("#myCanvas"),
+      ctx = canvas.get(0).getContext('2d');
+      moving(ctx,200,150,180,20,a,210);
+      drawcone(ctx,200,150,180,20);
+});
+function drawcone(ctx,x,y,R,r){
+  $(document).ready(function(){
+  //   if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
+  //   CanvasRenderingContext2D.prototype.ellipse = function(x, y, radiusX, radiusY, rotation, startAngle, endAngle, antiClockwise) {
+  //     this.save();
+  //     this.translate(x, y);
+  //     this.rotate(rotation);
+  //     this.scale(radiusX, radiusY);
+  //     this.arc(0, 0, 1, startAngle, endAngle, antiClockwise);
+  //     this.restore();
+  //   }
+  // }
+      // 圆椎外形
+      ctx.beginPath();
+      ctx.ellipse(x, y, R, r, 0, 0, 2*Math.PI, true);
+      ctx.closePath();
+      ctx.stroke();
+      ctx.moveTo(r,y);
+      ctx.lineTo(x,2*R);
+      ctx.moveTo(r+2*R,y);
+      ctx.lineTo(x,2*R);
+      ctx.stroke();
+
+  });
+}
+
+function moving(ctx,x,y,R,r,a,h){
+  $('input[name="persentage"]').on('change',function(){
+      a=$(this).val();
+      ctx.clearRect(r,y-r,2*R,2*R);  // 清除之前的圆锥
+      drawcone(ctx,x,y,R,r);    // 重画外形
+      for(var i=0;i<=a*1000;i++){
+          ctx.fillStyle="rgb(255,192,75)";
+          ctx.beginPath();
+          ctx.ellipse(x, 2*R-(i/1000)*h, (i/1000)*(R-1), (i/1000)*(r-1), 0, 0, 2*Math.PI, true);     // a％的椭圆
+          ctx.closePath();
+          ctx.fill();
+      }
+
+        ctx.strokeType="rgb(100,100,100)";
+        ctx.fillStyle="rgb(245,155,37)";
+        ctx.beginPath();
+        ctx.ellipse(x, 2*R-a*h, a*R, a*r, 0, 0, 2*Math.PI, true);
+        ctx.closePath();
+        ctx.stroke();
+        ctx.fill();
+
+        if(a>0.82){
+          ctx.strokeType="rgb(0,0,0)";
+          ctx.beginPath();
+          ctx.ellipse(x, y, R, r, 0, 0, 2*Math.PI, true); // 圆锥地面仍显示外面框
+          ctx.closePath();
+          ctx.stroke();
+        }
+    });
+
+}
