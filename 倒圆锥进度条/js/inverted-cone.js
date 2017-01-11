@@ -1,4 +1,5 @@
 $(function (){
+  // 圆锥
   var x,    //底面圆心xxx
       y,    //底面圆心y
       R,    //椭圆R
@@ -10,6 +11,14 @@ $(function (){
       ctx = canvas.get(0).getContext('2d');
       moving(ctx,200,150,180,20,a,210);
       drawcone(ctx,200,150,180,20);
+
+      // 正三角形
+  var canvas = $("#theCanvas"),
+      content = canvas.get(0).getContext('2d'),
+      height =200*Math.sin(Math.PI/3),   // //计算边为l的正三角形的高
+      y = '';
+      //drawRect(content,height);
+      growing(content,height,y);
 });
 function drawcone(ctx,x,y,R,r){
   $(document).ready(function(){
@@ -67,4 +76,36 @@ function moving(ctx,x,y,R,r,a,h){
         }
     });
 
+}
+
+function drawRect(content,height,y){
+  $(document).ready(function (){
+    content.fillStyle='#00ff00';//以纯色绿色填充
+    content.beginPath();
+    content.moveTo(0,height);
+    content.lineTo(100,y);
+    content.lineTo(100,height);
+    content.closePath();
+    content.fill();
+    content.fillStyle='#ff0000';
+    content.beginPath();
+    content.moveTo(200,height);
+    content.lineTo(100,y);
+    content.lineTo(100,height);
+    // var grd = content.createLinearGradient(0,0,200,0);//使用渐变颜色填充,从(0,0)到(200,0) （左到右）
+    // grd.addColorStop(0,"#4CE8B2"); //起始颜色
+    // grd.addColorStop(1,"#EFD458"); //终点颜色
+    // content.fillStyle=grd; //以上面定义的渐变填充
+    content.closePath();
+    content.fill(); //闭合形状并且以填充方式绘制出来
+  });
+}
+
+function growing(content,height,y){
+  $('input[name="persentageRect"]').on('change',function(){
+    var b = $(this).val();
+    y = height - b*height;
+    content.clearRect(0,0,200,200);
+    drawRect(content,height,y);
+  });
 }
