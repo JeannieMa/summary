@@ -22,6 +22,17 @@ $(function (){
 });
 function drawcone(ctx,x,y,R,r,h){
   $(document).ready(function(){
+    // ie浏览器判断
+    if (CanvasRenderingContext2D.prototype.ellipse == undefined) {
+    CanvasRenderingContext2D.prototype.ellipse = function(x, y, radiusX, radiusY, rotation, startAngle, endAngle, antiClockwise) {
+      this.save();
+      this.translate(x, y);
+      this.rotate(rotation);
+      this.scale(radiusX, radiusY);
+      this.arc(0, 0, 1, startAngle, endAngle, antiClockwise);
+      this.restore();
+    }
+  }
       // 圆椎外形
       ctx.beginPath();
       ctx.ellipse(x, y, R, r, 0, 0, 2*Math.PI, true);
